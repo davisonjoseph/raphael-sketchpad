@@ -11,4 +11,61 @@ http://ianli.com/sketchpad
 
 Copyright (c) 2011 Ian Li (http://ianli.com)
 Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
+------------------------------------------------------------------------------------------------------------------
 
+
+
+
+1. Include necessary javascript library files.
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="raphael.min.js"></script>
+<script type="text/javascript" src="json2.min.js"></script>
+<script type="text/javascript" src="raphael.sketchpad.js"></script>
+-------------------------------------------------------------------------------------------------------------------
+2. To create an editor, put a div with an id where you want the editor. Add a form with a hidden input field 
+with a different id. Set the editing option to true (This is the default setting). 
+
+<div id="editor"></div>
+
+<form action="save.php" method="post">
+	<input type="hidden" name="data" />
+	<input type="submit" value="Save" />
+</form>
+
+<script type="text/javascript">
+	var sketchpad = Raphael.sketchpad("editor", {
+		width: 400,
+		height: 400,
+		editing: true
+	});
+
+	// When the sketchpad changes, update the input field.
+	sketchpad.change(function() {
+		$("#data").val(sketchpad.json());
+	});
+</script>
+---------------------------------------------------------------------------------------------------------------------
+
+3. To create a viewer, put a div with an id where you want the viewer. 
+Set strokes with an array of strokes. Set the editing option to false. 
+
+<div id="viewer"></div>
+
+<script type="text/javascript">
+	var strokes = [{
+		type:"path",
+		path:[["M",10,10],["L",390,390]],
+		fill:"none", "stroke":"#000000",
+		stroke-opacity:1,
+		stroke-width:5,
+		stroke-linecap:"round",
+		stroke-linejoin:"round"
+	}];
+	var sketchpad = Raphael.sketchpad("viewer", {
+		width: 400,
+		height: 400,
+		strokes: strokes,
+		editing: false
+	});
+</script>
